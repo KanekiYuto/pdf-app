@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Dompdf\Options;
 use Illuminate\Http\Response;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Request;
@@ -455,6 +454,91 @@ class Pdf
             'download' => $pdf->download(),
             'stream' => $pdf->stream(),
             'html' => view('pdf.generate_4', $params),
+            default => $url,
+        };
+    }
+
+    public static function generate_5(Request $request): Response|View|string
+    {
+        $params = $request::validate([
+            'type' => 'present|string|nullable',
+            'data' => 'required|json',
+        ]);
+
+        $params = collect($params)->map(function (mixed $value) {
+            return is_null($value) ? ' ' : $value;
+        })->toArray();
+
+        $params['data'] = json_decode($params['data'], true);
+
+        $viewParams = [
+            'columns' => [
+                [
+                    'width' => 3,
+                    'name' => "序号",
+                ], [
+                    'width' => 5,
+                    'name' => "区域组别",
+                ], [
+                    'width' => 5,
+                    'name' => "区域组长",
+                ], [
+                    'width' => 5,
+                    'name' => "危废名称",
+                ], [
+                    'width' => 5,
+                    'name' => "包装方式",
+                ], [
+                    'width' => 10,
+                    'name' => "产废单位",
+                ], [
+                    'width' => 8,
+                    'name' => "来样时间",
+                ], [
+                    'width' => 5,
+                    'name' => '数量/t',
+                ], [
+                    'width' => 5,
+                    'name' => 'pH',
+                ], [
+                    'width' => 5,
+                    'name' => "固含量【%】",
+                ], [
+                    'width' => 5,
+                    'name' => "灰分【%】",
+                ], [
+                    'width' => 5,
+                    'name' => "硫含量【%】",
+                ], [
+                    'width' => 5,
+                    'name' => "热值【J/g】",
+                ], [
+                    'width' => 5,
+                    'name' => "氟含量【mg/L】",
+                ], [
+                    'width' => 5,
+                    'name' => "氯含量【%】",
+                ], [
+                    'width' => 5,
+                    'name' => "总磷",
+                ], [
+                    'width' => 10,
+                    'name' => "超限说明"
+                ]
+            ],
+            'items' => $params['data'],
+        ];
+
+        $url = urldecode(route('generate_5', array_merge($params, ['type' => 'stream'])));
+
+        // 加载 HTML 内容并生成 PDF
+        $pdf = PdfFacade::loadView('pdf.generate_5', $viewParams)
+            ->setPaper('a4', 'landscape');
+
+        return match ($params['type']) {
+            'download' => $pdf->download(),
+            'stream' => $pdf->stream(),
+            'html' => view('pdf.generate_5', $viewParams),
             default => $url,
         };
     }

@@ -19,3 +19,7 @@ Route::match(['get', 'post'],'/generate_3', function (Request $request) {
 Route::match(['get', 'post'],'/generate_4', function (Request $request) {
     return Pdf::generate_4($request);
 })->name('generate_4');
+
+Route::match(['get', 'post'],'/generate_5', function (Request $request) {
+    return Pdf::generate_5($request);
+})->name('generate_5');
