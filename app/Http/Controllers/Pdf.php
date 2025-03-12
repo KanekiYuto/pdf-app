@@ -493,7 +493,7 @@ class Pdf
                     'name' => "产废单位",
                 ], [
                     'width' => 8,
-                    'name' => "来样时间",
+                    'name' => "报告日期",
                 ], [
                     'width' => 5,
                     'name' => '数量/t',
