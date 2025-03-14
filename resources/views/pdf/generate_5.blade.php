@@ -10,14 +10,14 @@
 
         .table th {
             border: 1px solid #333;
-            font-size: 12px;
+            font-size: 10px;
             text-align: center;
             padding: 8px;
         }
 
         .table td {
             border: 1px solid #333;
-            font-size: 13px;
+            font-size: 12px;
             text-align: center;
             padding: 6px;
         }
